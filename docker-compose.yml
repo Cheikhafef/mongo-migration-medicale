@@ -1,0 +1,91 @@
+<<<<<<< HEAD
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - mongo_net
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_PORT=27017
+    depends_on:
+      - mongodb
+    networks:
+      - mongo_net
+
+  migrateur:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: migrateur
+    volumes:
+      - ./archive:/app/archive
+    depends_on:
+      - mongodb
+    networks:
+      - mongo_net
+
+volumes:
+  mongo_data:
+
+networks:
+  mongo_net:
+
+=======
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - mongo_net
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_PORT=27017
+    depends_on:
+      - mongodb
+    networks:
+      - mongo_net
+
+  migrateur:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: migrateur
+    volumes:
+      - ./archive:/app/archive
+    depends_on:
+      - mongodb
+    networks:
+      - mongo_net
+
+volumes:
+  mongo_data:
+
+networks:
+  mongo_net:
+
+>>>>>>> 6676fc8 (Initial commit : migration MongoDB + Docker setup)
